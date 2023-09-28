@@ -174,7 +174,30 @@ city = [
     {"city": "Padangsidempuan", "province":"Sumatera Utara" },
     {"city": "Rantau Prapat", "province":"Sumatera Utara" }
 ]
+payment_method = [
+    {
+        "nama": "Kartu Kredit", 
+        "jenis": ["Mandiri","BCA","BNI","BRI","Danamon","CIMB Niaga","Permata","Mega"]
+    },
+    {
+        "nama": "Transfer Bank",
+        "jenis": ["Mandiri","BCA","BNI","BRI","Danamon","CIMB Niaga","Permata","Mega"]
+    },
+    {
+        "nama": "Dompet Elektronik",
+        "jenis": ["GoPay","OVO","DANA","GrabPay","ShopeePay","PayPal"]
+    },
+    {
+        "nama": "Mobile Banking",
+        "jenis": ["Mandiri","BCA","BNI","BRI","Danamon","CIMB Niaga","Permata","Mega"]
+    },
+    {
+        "nama": "cash",
+        "jenis": ["cash"]
+    }
+]
 
+    
 
 
 
