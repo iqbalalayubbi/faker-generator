@@ -1,4 +1,5 @@
 from faker import Faker
+import data
 
 fake = Faker()
 
@@ -6,16 +7,7 @@ alfabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 allProvinces = []
 
 def generateRole():
-    roles = [
-        "Kasir",
-        "Sales Associate",
-        "Manajer",
-        "Asisten Manajer Toko",
-        "Visual Merchandiser",
-        "Customer Service Representative",
-        "Marketing",
-        "IT Support"
-    ]
+    roles = data.roles
 
     sql = ""
     for i in range(len(roles)):
@@ -23,28 +15,7 @@ def generateRole():
     return sql
 
 def generateKategori():
-    kategori = [
-        "Elektronik",
-        "Fashion",
-        "Kecantikan dan Perawatan Pribadi",
-        "Makanan dan Minuman",
-        "Rumah dan Taman",
-        "Olahraga dan Kesehatan",
-        "Hobi dan Mainan",
-        "Otomotif",
-        "Elektronik Rumah Tangga",
-        "Perlengkapan Kantor",
-        "Perhiasan",
-        "Tas",
-        "Sepatu",
-        "Pakaian Wanita",
-        "Pakaian Pria",
-        "Kosmetik",
-        "Alat-alat Taman",
-        "Produk Makanan Organik",
-        "Wine dan Minuman Keras",
-        "Peralatan Olahrag"
-    ]
+    kategori = data.kategori
     sql = ""
     for k in kategori:
         kode = "#"+fake.bothify(text='%%%???', letters=alfabet)
@@ -52,239 +23,26 @@ def generateKategori():
     return sql
 
 def generateProvince():
-    provinces = [
-        "Aceh",
-        "Sumatera Utara",
-        "Sumatera Barat",
-        "Riau",
-        "Kepulauan Riau",
-        "Jambi",
-        "Bengkulu",
-        "Sumatera Selatan",
-        "Bangka Belitung",
-        "Lampung",
-        "Banten",
-        "DKI Jakarta",
-        "Jawa Barat",
-        "Jawa Tengah",
-        "DI Yogyakarta",
-        "Jawa Timur",
-        "Bali",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Timur",
-        "Kalimantan Barat",
-        "Kalimantan Tengah",
-        "Kalimantan Selatan",
-        "Kalimantan Timur",
-        "Kalimantan Utara",
-        "Sulawesi Utara",
-        "Gorontalo",
-        "Sulawesi Tengah",
-        "Sulawesi Barat",
-        "Sulawesi Selatan",
-        "Sulawesi Tenggara",
-        "Maluku",
-        "Maluku Utara",
-        "Papua Barat",
-        "Papua"
-    ]
-    capitals = [
-        "Banda Aceh",
-        "Medan",
-        "Padang",
-        "Pekanbaru",
-        "Tanjung Pinang",
-        "Jambi",
-        "Bengkulu",
-        "Palembang",
-        "Pangkal Pinang",
-        "Bandar Lampung",
-        "Serang",
-        "Jakarta",
-        "Bandung",
-        "Semarang",
-        "Yogyakarta",
-        "Surabaya",
-        "Denpasar",
-        "Mataram",
-        "Kupang",
-        "Pontianak",
-        "Palangkaraya",
-        "Banjarmasin",
-        "Samarinda",
-        "Tanjung Selor",
-        "Manado",
-        "Gorontalo",
-        "Palu",
-        "Mamuju",
-        "Makassar",
-        "Kendari",
-        "Ambon",
-        "Sofifi",
-        "Manokwari",
-        "Jayapura"
-    ]
+    provinces = data.provinces
+    capitals = data.capitals
     sql = ""
     for i in range(len(provinces)):
         kode = fake.bothify(text='%%%-???', letters=alfabet)
-        data = {
+        temp_data = {
             "kode" : kode,
             "province" : provinces[i],
             "capital" : capitals[i]
         }
-        allProvinces.append(data)
-        sql += f"INSERT INTO kategori (kode, nama, ibukota) VALUES(`{data['kode']}`, `{data['province']}`, `{data['capital']}`)\n"
+        allProvinces.append(temp_data)
+        sql += f"INSERT INTO kategori (kode, nama, ibukota) VALUES(`{temp_data['kode']}`, `{temp_data['province']}`, `{temp_data['capital']}`)\n"
     return sql
 
 def generateCity():
-    city = [
-        "Jakarta",
-        "Surabaya",
-        "Bandung",
-        "Medan",
-        "Semarang",
-        "Palembang",
-        "Makassar",
-        "Depok",
-        "Bekasi",
-        "Tangerang",
-        "Bogor",
-        "Malang",
-        "Yogyakarta",
-        "Batam",
-        "Pekanbaru",
-        "Balikpapan",
-        "Samarinda",
-        "Padang",
-        "Banjarmasin",
-        "Pontianak",
-        "Manado",
-        "Denpasar",
-        "Bandar Lampung",
-        "Jambi",
-        "Surakarta",
-        "Ambon",
-        "Palu",
-        "Kendari",
-        "Gorontalo",
-        "Mataram",
-        "Tomohon",
-        "Bitung",
-        "Kotamobagu",
-        "Luwuk",
-        "Bau-Bau",
-        "Tual",
-        "Serui",
-        "Merauke",
-        "Timika",
-        "Sorong",
-        "Nabire",
-        "Jayapura",
-        "Biak",
-        "Manokwari",
-        "Fakfak",
-        "Bima",
-        "Dompu",
-        "Sumbawa Besar",
-        "Praya",
-        "Selong",
-        "Waingapu",
-        "Ruteng",
-        "Ende",
-        "Maumere",
-        "Larantuka",
-        "Kefamenanu",
-        "Atambua",
-        "Singkawang",
-        "Tarakan",
-        "Palangkaraya",
-        "Banjarbaru",
-        "Kotamobagu",
-        "Tanjungbalai",
-        "Tebingtinggi",
-        "Pematangsiantar",
-        "Binjai",
-        "Gunungsitoli",
-        "Telukdalam",
-        "Padangsidempuan",
-        "Rantau Prapat"
-    ]
-    provinces = [
-        "DKI Jakarta",
-        "Jawa Timur",
-        "Jawa Barat",
-        "Sumatera Utara",
-        "Jawa Tengah",
-        "Sumatera Selatan",
-        "Sulawesi Selatan",
-        "Jawa Barat",
-        "Jawa Barat",
-        "Banten",
-        "Jawa Barat",
-        "Jawa Timur",
-        "DI Yogyakarta",
-        "Kepulauan Riau",
-        "Riau",
-        "Kalimantan Timur",
-        "Kalimantan Timur",
-        "Sumatera Barat",
-        "Kalimantan Selatan",
-        "Kalimantan Barat",
-        "Sulawesi Utara",
-        "Bali",
-        "Lampung",
-        "Jambi",
-        "Jawa Tengah",
-        "Maluku",
-        "Sulawesi Tengah",
-        "Sulawesi Tenggara",
-        "Gorontalo",
-        "Nusa Tenggara Barat",
-        "Sulawesi Utara",
-        "Sulawesi Utara",
-        "Sulawesi Utara",
-        "Sulawesi Tengah",
-        "Sulawesi Tenggara",
-        "Maluku",
-        "Papua",
-        "Papua",
-        "Papua",
-        "Papua Barat",
-        "Papua",
-        "Papua",
-        "Papua",
-        "Papua Barat",
-        "Papua Barat",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Barat",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Nusa Tenggara Timur",
-        "Kalimantan Barat",
-        "Kalimantan Utara",
-        "Kalimantan Tengah",
-        "Kalimantan Selatan",
-        "Sulawesi Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara",
-        "Sumatera Utara"
-    ]
+    city = data.city
     sql = ""
-    for i in range(len(city)):
+    for c in city:
         kode = fake.bothify(text='%%%-???', letters=alfabet)
-        sql += f"INSERT INTO kategori (kode, nama, kode_provinsi) VALUES(`{kode}`, `{city[i]}`, `{getCodeProvince(provinces[i])}`)\n"
+        sql += f"INSERT INTO kategori (kode, nama, kode_provinsi) VALUES(`{kode}`, `{c['city']}`, `{getCodeProvince(c['province'])}`)\n"
     return sql
 
 def generateSQL(sql, filename):
