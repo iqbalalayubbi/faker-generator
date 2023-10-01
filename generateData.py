@@ -154,17 +154,5 @@ def generateFile():
     sqlTransactionDetail = generateTransactionDetail()
 
     allSql = sqlRole+sqlCategory+sqlCustomers+sqlPaymentMethods+sqlAccount+sqlProduct+sqlSupplier+sqlPurchase+sqlPurchaseDetail+sqlTransaction+sqlTransactionDetail
-
-    # generateSQL(sqlRole, "role.sql")
-    # generateSQL(sqlCategory, "kategori.sql")
-    # generateSQL(sqlCustomers, "customers.sql")
-    # generateSQL(sqlPaymentMethods, "payment-method.sql")
-    # generateSQL(sqlAccount, "account.sql")
-    # generateSQL(sqlProduct, "product.sql")
-    # generateSQL(sqlSupplier, "supplier.sql")
-    # generateSQL(sqlPurchase, "pembelian.sql")
-    # generateSQL(sqlPurchaseDetail, "detail-pembelian.sql")
-    # generateSQL(sqlTransaction, "transaksi.sql")
-    # generateSQL(sqlTransactionDetail, "detail-transaksi.sql")
-    generateSQL(allSql, "all-table-sql.sql")
+    generateSQL(allSql, "all-table.sql")
 

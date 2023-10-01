@@ -1,2 +1,3 @@
 *.sql
 __pycache__/
+!create-all-table.sql
