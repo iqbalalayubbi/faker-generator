@@ -62,7 +62,7 @@ CREATE TABLE `pembelian` (
 CREATE TABLE `detail_pembelian` (
   `kode` varchar(20) PRIMARY KEY,
   `harga` decimal(10,3),
-  `jumlah` decimal(5,3),
+  `jumlah` integer,
   `kode_pembelian` varchar(20),
   `kode_barang` varchar(20)
 );
@@ -78,7 +78,7 @@ CREATE TABLE `transaksi` (
 CREATE TABLE `detail_transaksi` (
   `kode` varchar(20) PRIMARY KEY,
   `harga` decimal(10,3),
-  `jumlah` decimal(5,3),
+  `jumlah` integer,
   `kode_transaksi` varchar(20),
   `kode_barang` varchar(20)
 );
