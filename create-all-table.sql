@@ -3,12 +3,7 @@ CREATE TABLE `kategori` (
   `jenis` varchar(100)
 );
 
-CREATE TABLE `role` (
-  `id` integer PRIMARY KEY,
-  `nama` varchar(100)
-);
-
-CREATE TABLE `pelanggan` (
+CREATE TABLE `member` (
   `id` integer PRIMARY KEY,
   `nama` varchar(100),
   `jenis_kelamin` char(1),
@@ -29,7 +24,7 @@ CREATE TABLE `akun` (
   `jenis_kelamin` char(1),
   `nomor_telepon` varchar(20),
   `alamat` text,
-  `id_role` integer
+  `role` varchar(100)
 );
 
 CREATE TABLE `barang` (
@@ -51,39 +46,25 @@ CREATE TABLE `supplier` (
   `perusahaan` varchar(100)
 );
 
-CREATE TABLE `pembelian` (
+CREATE TABLE `restock` (
   `kode` varchar(20) PRIMARY KEY,
   `waktu` datetime,
   `biaya_kirim` decimal(10,3),
+  `harga` decimal(10,3),
+  `total` decimal(10,3),
   `id_supplier` integer,
   `username_akun` varchar(50)
-);
-
-CREATE TABLE `detail_pembelian` (
-  `kode` varchar(20) PRIMARY KEY,
-  `harga` decimal(10,3),
-  `jumlah` integer,
-  `kode_pembelian` varchar(20),
-  `kode_barang` varchar(20)
 );
 
 CREATE TABLE `transaksi` (
   `kode` varchar(20) PRIMARY KEY,
   `waktu` datetime,
+  `harga` decimal(10,3),
+  `total` decimal(10,3),
   `username_akun` varchar(50),
   `kode_metode_pembayaran` varchar(20),
-  `id_pelanggan` integer
+  `id_member` integer
 );
-
-CREATE TABLE `detail_transaksi` (
-  `kode` varchar(20) PRIMARY KEY,
-  `harga` decimal(10,3),
-  `jumlah` integer,
-  `kode_transaksi` varchar(20),
-  `kode_barang` varchar(20)
-);
-
-ALTER TABLE `akun` ADD FOREIGN KEY (`id_role`) REFERENCES `role` (`id`);
 
 ALTER TABLE `barang` ADD FOREIGN KEY (`kode_kategori`) REFERENCES `kategori` (`kode`);
 
@@ -91,16 +72,10 @@ ALTER TABLE `pembelian` ADD FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`
 
 ALTER TABLE `pembelian` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
 
-ALTER TABLE `detail_pembelian` ADD FOREIGN KEY (`kode_pembelian`) REFERENCES `pembelian` (`kode`);
-
-ALTER TABLE `detail_pembelian` ADD FOREIGN KEY (`kode_barang`) REFERENCES `barang` (`kode`);
-
 ALTER TABLE `transaksi` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
 
 ALTER TABLE `transaksi` ADD FOREIGN KEY (`kode_metode_pembayaran`) REFERENCES `metode_pembayaran` (`kode`);
 
-ALTER TABLE `transaksi` ADD FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id`);
+ALTER TABLE `transaksi` ADD FOREIGN KEY (`id_member`) REFERENCES `member` (`id`);
 
-ALTER TABLE `detail_transaksi` ADD FOREIGN KEY (`kode_transaksi`) REFERENCES `transaksi` (`kode`);
 
-ALTER TABLE `detail_transaksi` ADD FOREIGN KEY (`kode_barang`) REFERENCES `barang` (`kode`);
