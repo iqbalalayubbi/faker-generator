@@ -68,9 +68,9 @@ CREATE TABLE `transaksi` (
 
 ALTER TABLE `barang` ADD FOREIGN KEY (`kode_kategori`) REFERENCES `kategori` (`kode`);
 
-ALTER TABLE `pembelian` ADD FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`);
+ALTER TABLE `restock` ADD FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`);
 
-ALTER TABLE `pembelian` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
+ALTER TABLE `restock` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
 
 ALTER TABLE `transaksi` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
 
