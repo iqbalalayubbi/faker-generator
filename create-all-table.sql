@@ -1,81 +1,156 @@
-CREATE TABLE `kategori` (
-  `kode` varchar(20) PRIMARY KEY,
-  `jenis` varchar(100)
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     11/2/2023 11:36:23 AM                        */
+/*==============================================================*/
+
+
+drop table if exists AKUN;
+
+drop table if exists BARANG;
+
+drop table if exists KATEGORI;
+
+drop table if exists MEMBER;
+
+drop table if exists METODE_PEMBAYARAN;
+
+drop table if exists RESTOCK;
+
+drop table if exists SUPPLIER;
+
+drop table if exists TRANSAKSI;
+
+/*==============================================================*/
+/* Table: AKUN                                                  */
+/*==============================================================*/
+create table AKUN
+(
+   USERNAME_AKUN        varchar(50) not null,
+   PASSWORD_AKUN        varchar(50),
+   EMAIL_AKUN           varchar(50),
+   JENIS_KELAMIN_AKUN   varchar(1),
+   NOMOR_TELEPON_AKUN   varchar(20),
+   ALAMAT_AKUN          longtext,
+   ROLE                 varchar(50),
+   primary key (USERNAME_AKUN)
 );
 
-CREATE TABLE `member` (
-  `id` integer PRIMARY KEY,
-  `nama` varchar(100),
-  `jenis_kelamin` char(1),
-  `nomor_telepon` varchar(20),
-  `alamat` text
+/*==============================================================*/
+/* Table: BARANG                                                */
+/*==============================================================*/
+create table BARANG
+(
+   KODE_BARANG          varchar(20) not null,
+   KODE_KATEGORI        varchar(20),
+   BARCODE_BARANG       varchar(20),
+   NAMA_BARANG          varchar(50),
+   HARGA_BELI_BARANG    decimal(10,3),
+   HARGA_JUAL_BARANG    decimal(10,3),
+   BERAT_BARANG         decimal(10,3),
+   STOK_BARANG          int,
+   primary key (KODE_BARANG)
 );
 
-CREATE TABLE `metode_pembayaran` (
-  `kode` varchar(20) PRIMARY KEY,
-  `nama` varchar(50),
-  `jenis` varchar(50)
+/*==============================================================*/
+/* Table: KATEGORI                                              */
+/*==============================================================*/
+create table KATEGORI
+(
+   KODE_KATEGORI        varchar(20) not null,
+   JENIS_KATEGORI       varchar(100),
+   primary key (KODE_KATEGORI)
 );
 
-CREATE TABLE `akun` (
-  `username` varchar(50) PRIMARY KEY,
-  `password` varchar(50),
-  `email` varchar(50),
-  `jenis_kelamin` char(1),
-  `nomor_telepon` varchar(20),
-  `alamat` text,
-  `role` varchar(100)
+/*==============================================================*/
+/* Table: MEMBER                                                */
+/*==============================================================*/
+create table MEMBER
+(
+   ID_MEMBER            int not null,
+   NAMA_MEMBER          varchar(100),
+   JENIS_KELAMIN_MEMBER char(1),
+   NOMOR_TELEPON_MEMBER varchar(20),
+   ALAMAT_MEMBER        longtext,
+   primary key (ID_MEMBER)
 );
 
-CREATE TABLE `barang` (
-  `kode` varchar(20) PRIMARY KEY,
-  `barcode` varchar(20),
-  `nama` varchar(50),
-  `harga_beli` decimal(10,3),
-  `harga_jual` decimal(10,3),
-  `berat` decimal(10,3),
-  `stok` integer,
-  `kode_kategori` varchar(20)
+/*==============================================================*/
+/* Table: METODE_PEMBAYARAN                                     */
+/*==============================================================*/
+create table METODE_PEMBAYARAN
+(
+   KODE_METODE_PEMBAYARAN varchar(20) not null,
+   NAMA_METODE_PEMBAYARAN varchar(50),
+   JENIS_METODE_PEMBAYARAN varchar(50),
+   primary key (KODE_METODE_PEMBAYARAN)
 );
 
-CREATE TABLE `supplier` (
-  `id` integer PRIMARY KEY,
-  `nama` varchar(50),
-  `alamat` text,
-  `nomor_telepon` varchar(20),
-  `perusahaan` varchar(100)
+/*==============================================================*/
+/* Table: RESTOCK                                               */
+/*==============================================================*/
+create table RESTOCK
+(
+   KODE_RESTOCK         varchar(20) not null,
+   ID_SUPPLIER          int,
+   KODE_BARANG          varchar(20),
+   USERNAME_AKUN        varchar(50),
+   WAKTU_RESTOCK        timestamp,
+   BIAYA_KIRIM_RESTOCK  decimal(10,3),
+   HARGA_RESTOCK        decimal(10,3),
+   TOTAL_BARANG_RESTOCK int,
+   primary key (KODE_RESTOCK)
 );
 
-CREATE TABLE `restock` (
-  `kode` varchar(20) PRIMARY KEY,
-  `waktu` datetime,
-  `biaya_kirim` decimal(10,3),
-  `harga` decimal(10,3),
-  `total` decimal(10,3),
-  `id_supplier` integer,
-  `username_akun` varchar(50)
+/*==============================================================*/
+/* Table: SUPPLIER                                              */
+/*==============================================================*/
+create table SUPPLIER
+(
+   ID_SUPPLIER          int not null,
+   NAMA_SUPPLIER        varchar(50),
+   ALAMAT_SUPPLIER      longtext,
+   NOMOR_TELEPON_SUPPLIER varchar(20),
+   PERUSAHAAN_SUPPLIER  varchar(100),
+   primary key (ID_SUPPLIER)
 );
 
-CREATE TABLE `transaksi` (
-  `kode` varchar(20) PRIMARY KEY,
-  `waktu` datetime,
-  `harga` decimal(10,3),
-  `total` decimal(10,3),
-  `username_akun` varchar(50),
-  `kode_metode_pembayaran` varchar(20),
-  `id_member` integer
+/*==============================================================*/
+/* Table: TRANSAKSI                                             */
+/*==============================================================*/
+create table TRANSAKSI
+(
+   KODE_TRANSAKSI       varchar(20) not null,
+   KODE_BARANG          varchar(20),
+   ID_MEMBER            int,
+   USERNAME_AKUN        varchar(50),
+   KODE_METODE_PEMBAYARAN varchar(20),
+   WAKTU_TRANSAKSI      timestamp,
+   HARGA_TRANSAKSI      decimal(10,3),
+   TOTAL_TRANSAKSI      decimal(10,3),
+   primary key (KODE_TRANSAKSI)
 );
 
-ALTER TABLE `barang` ADD FOREIGN KEY (`kode_kategori`) REFERENCES `kategori` (`kode`);
+alter table BARANG add constraint FK_BARANG_TERMASUK_KATEGORI foreign key (KODE_KATEGORI)
+      references KATEGORI (KODE_KATEGORI) on delete restrict on update restrict;
 
-ALTER TABLE `restock` ADD FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`);
+alter table RESTOCK add constraint FK_AKUN_MENERIMA_RESTOCK foreign key (USERNAME_AKUN)
+      references AKUN (USERNAME_AKUN) on delete restrict on update restrict;
 
-ALTER TABLE `restock` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
+alter table RESTOCK add constraint FK_BARANG_TERMASUK_RESTOCK foreign key (KODE_BARANG)
+      references BARANG (KODE_BARANG) on delete restrict on update restrict;
 
-ALTER TABLE `transaksi` ADD FOREIGN KEY (`username_akun`) REFERENCES `akun` (`username`);
+alter table RESTOCK add constraint FK_SUPPLIER_MEMBUAT_RESTOCK foreign key (ID_SUPPLIER)
+      references SUPPLIER (ID_SUPPLIER) on delete restrict on update restrict;
 
-ALTER TABLE `transaksi` ADD FOREIGN KEY (`kode_metode_pembayaran`) REFERENCES `metode_pembayaran` (`kode`);
+alter table TRANSAKSI add constraint FK_AKUN_MEMBUAT_TRANSAKSI foreign key (USERNAME_AKUN)
+      references AKUN (USERNAME_AKUN) on delete restrict on update restrict;
 
-ALTER TABLE `transaksi` ADD FOREIGN KEY (`id_member`) REFERENCES `member` (`id`);
+alter table TRANSAKSI add constraint FK_BARANG_TERMASUK_TRANSAKSI foreign key (KODE_BARANG)
+      references BARANG (KODE_BARANG) on delete restrict on update restrict;
 
+alter table TRANSAKSI add constraint FK_MEMBER_MELAKUKAN_TRANSAKSI foreign key (ID_MEMBER)
+      references MEMBER (ID_MEMBER) on delete restrict on update restrict;
+
+alter table TRANSAKSI add constraint FK_TRANSAKSI_MEMILIH_METODE_PEMBAYARAN foreign key (KODE_METODE_PEMBAYARAN)
+      references METODE_PEMBAYARAN (KODE_METODE_PEMBAYARAN) on delete restrict on update restrict;
 

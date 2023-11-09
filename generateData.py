@@ -20,7 +20,7 @@ def generateCategory():
         kode = "#"+getRandomCode('%%%???', alfabet)+str(i)
         codeCategory.append(kode)
 
-        sql += f"INSERT INTO kategori (kode, jenis) VALUES('{kode}','{kategori[i]}');\n"
+        sql += f"INSERT INTO KATEGORI (KODE_KATEGORI, JENIS_KATEGORI) VALUES('{kode}','{kategori[i]}');\n"
     return sql
 
 def generateMembers():
@@ -31,7 +31,7 @@ def generateMembers():
         nomor_telepon = "08"+fake.msisdn()
         alamat = fake.address()
 
-        sql += f"INSERT INTO member (id, nama, jenis_kelamin, nomor_telepon, alamat) VALUES('{i+1}','{nama}', '{jenis_kelamin}', '{nomor_telepon}', '{alamat}');\n"
+        sql += f"INSERT INTO MEMBER (ID_MEMBER, NAMA_MEMBER, JENIS_KELAMIN_MEMBER, NOMOR_TELEPON_MEMBER, ALAMAT_MEMBER) VALUES('{i+1}','{nama}', '{jenis_kelamin}', '{nomor_telepon}', '{alamat}');\n"
     return sql
 
 def generatePaymentMethods():
@@ -44,7 +44,7 @@ def generatePaymentMethods():
             jenis = j
             codePayment.append(kode)
 
-            sql += f"INSERT INTO metode_pembayaran (kode, nama, jenis) VALUES('{kode}','{nama}', '{jenis}');\n"
+            sql += f"INSERT INTO METODE_PEMBAYARAN (KODE_METODE_PEMBAYARAN, NAMA_METODE_PEMBAYARAN, JENIS_METODE_PEMBAYARAN) VALUES('{kode}','{nama}', '{jenis}');\n"
     return sql
 
 def generateAccount():
@@ -60,7 +60,7 @@ def generateAccount():
         role = roles[random.randint(0,7)]
         usernameAccounts.append(username)
 
-        sql += f"INSERT INTO akun (username, password, email, jenis_kelamin, nomor_telepon, alamat, role) VALUES('{username}','{password}', '{email}', '{jenis_kelamin}', '{nomor_telepon}', '{alamat}', '{role}');\n"
+        sql += f"INSERT INTO AKUN (USERNAME_AKUN, PASSWORD_AKUN, EMAIL_AKUN, JENIS_KELAMIN_AKUN, NOMOR_TELEPON_AKUN, ALAMAT_AKUN, ROLE) VALUES('{username}','{password}', '{email}', '{jenis_kelamin}', '{nomor_telepon}', '{alamat}', '{role}');\n"
     return sql
 
 def generateProduct():
@@ -76,7 +76,7 @@ def generateProduct():
         kode_kategori = random.choice(codeCategory)
         codeProducts.append(kode)
 
-        sql += f"INSERT INTO barang (kode, barcode, nama, harga_beli, harga_jual, berat, stok, kode_kategori) VALUES('{kode}','{barcode}', '{nama}', {harga_beli}, {harga_jual}, {berat}, {stok}, '{kode_kategori}');\n"
+        sql += f"INSERT INTO BARANG (KODE_BARANG, BARCODE_BARANG, NAMA_BARANG, HARGA_BELI_BARANG, HARGA_JUAL_BARANG, BERAT_BARANG, STOK_BARANG, KODE_KATEGORI) VALUES('{kode}','{barcode}', '{nama}', {harga_beli}, {harga_jual}, {berat}, {stok}, '{kode_kategori}');\n"
     return sql
 
 def generateSupplier():
@@ -87,7 +87,7 @@ def generateSupplier():
         nomor_telepon = "08"+fake.msisdn()
         perusahaan = fake.company_suffix()+fake.bs()
 
-        sql += f"INSERT INTO supplier (id, nama, alamat, nomor_telepon, perusahaan) VALUES('{i+1}','{nama}', '{alamat}', '{nomor_telepon}', '{perusahaan}');\n"
+        sql += f"INSERT INTO SUPPLIER (ID_SUPPLIER, NAMA_SUPPLIER, ALAMAT_SUPPLIER, NOMOR_TELEPON_SUPPLIER, PERUSAHAAN_SUPPLIER) VALUES('{i+1}','{nama}', '{alamat}', '{nomor_telepon}', '{perusahaan}');\n"
     return sql
 
 def generateRestock():
@@ -103,7 +103,7 @@ def generateRestock():
         id_supplier = random.randrange(1,500)
 
 
-        sql += f"INSERT INTO restock (kode, waktu, biaya_kirim, harga, total, id_supplier, username_akun) VALUES('{kode}','{waktu}', '{biaya_kirim}', '{harga}', '{total}', '{id_supplier}', '{username_akun}');\n"
+        sql += f"INSERT INTO RESTOCK (KODE_RESTOCK, WAKTU_RESTOCK, BIAYA_KIRIM_RESTOCK, HARGA_RESTOCK, TOTAL_BARANG_RESTOCK, ID_SUPPLIER, USERNAME_AKUN) VALUES('{kode}','{waktu}', '{biaya_kirim}', '{harga}', '{total}', '{id_supplier}', '{username_akun}');\n"
     return sql
 
 def generateTransaction():
@@ -118,7 +118,7 @@ def generateTransaction():
         harga = random.randrange(1000,100000, 10000)
         total = random.randrange(0,50)
 
-        sql += f"INSERT INTO transaksi (kode, waktu, harga, total, username_akun, kode_metode_pembayaran, id_member) VALUES('{kode}','{waktu}', '{harga}', '{total}', '{username_akun}', '{kode_metode_pembayaran}', '{id_member}');\n"
+        sql += f"INSERT INTO TRANSAKSI (KODE_TRANSAKSI, WAKTU_TRANSAKSI, HARGA_TRANSAKSI, TOTAL_TRANSAKSI, USERNAME_AKUN, KODE_METODE_PEMBAYARAN, ID_MEMBER) VALUES('{kode}','{waktu}', '{harga}', '{total}', '{username_akun}', '{kode_metode_pembayaran}', '{id_member}');\n"
     return sql
 
 def generateSQL(sql, filename):
@@ -136,5 +136,5 @@ def generateFile():
     sqlTransaction = generateTransaction()
 
     allSql = sqlCategory+sqlCustomers+sqlPaymentMethods+sqlAccount+sqlProduct+sqlSupplier+sqlPurchase+sqlTransaction
-    generateSQL(allSql, "all-table.sql")
+    generateSQL(allSql, "insert-data.sql")
 
