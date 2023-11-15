@@ -3,7 +3,6 @@
 /* Created on:     11/2/2023 11:36:23 AM                        */
 /*==============================================================*/
 
-
 drop table if exists AKUN;
 
 drop table if exists BARANG;

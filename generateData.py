@@ -1,26 +1,24 @@
 from faker import Faker
 import data
-from utils import getRandomCode
+from utils import getRandomCode, getData
 import random
 
 fake = Faker()
 
 alfabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 codePayment = []
-codeCategory = []
 usernameAccounts = []
 codePurchase = []
 codeProducts = []
 codeTransactions = []
 
 def generateCategory():
-    kategori = data.kategori
+    kategori = getData("kategori", 500)
     sql = ""
     for i in range(len(kategori)):
-        kode = "#"+getRandomCode('%%%???', alfabet)+str(i)
-        codeCategory.append(kode)
+        kode = kategori[i][0]
 
-        sql += f"INSERT INTO KATEGORI (KODE_KATEGORI, JENIS_KATEGORI) VALUES('{kode}','{kategori[i]}');\n"
+        sql += f"INSERT INTO KATEGORI (KODE_KATEGORI, JENIS_KATEGORI) VALUES('{kode}','{kategori[i][1]}');\n"
     return sql
 
 def generateMembers():
@@ -64,16 +62,17 @@ def generateAccount():
     return sql
 
 def generateProduct():
+    products = getData("products", 4999)
     sql = ""
-    for i in range(500):
+    for i in range(len(products)):
         kode = getRandomCode('???-%%%', alfabet)+str(i)
         barcode = fake.ean(length=13)
-        nama = "product"+str(i+1)
+        nama = products[i][1]
         harga_beli = random.randrange(500, 100000, 500)
         harga_jual = harga_beli+2000
         berat = str(random.randrange(100,1000,100))
         stok = random.randint(0,100)
-        kode_kategori = random.choice(codeCategory)
+        kode_kategori = products[i][0]
         codeProducts.append(kode)
 
         sql += f"INSERT INTO BARANG (KODE_BARANG, BARCODE_BARANG, NAMA_BARANG, HARGA_BELI_BARANG, HARGA_JUAL_BARANG, BERAT_BARANG, STOK_BARANG, KODE_KATEGORI) VALUES('{kode}','{barcode}', '{nama}', {harga_beli}, {harga_jual}, {berat}, {stok}, '{kode_kategori}');\n"
@@ -102,7 +101,6 @@ def generateRestock():
         total = random.randrange(0,100)
         id_supplier = random.randrange(1,500)
 
-
         sql += f"INSERT INTO RESTOCK (KODE_RESTOCK, WAKTU_RESTOCK, BIAYA_KIRIM_RESTOCK, HARGA_RESTOCK, TOTAL_BARANG_RESTOCK, ID_SUPPLIER, USERNAME_AKUN) VALUES('{kode}','{waktu}', '{biaya_kirim}', '{harga}', '{total}', '{id_supplier}', '{username_akun}');\n"
     return sql
 
@@ -117,12 +115,13 @@ def generateTransaction():
         codeTransactions.append(kode)
         harga = random.randrange(1000,100000, 10000)
         total = random.randrange(0,50)
+        kode_product = random.choice(codeProducts)
 
-        sql += f"INSERT INTO TRANSAKSI (KODE_TRANSAKSI, WAKTU_TRANSAKSI, HARGA_TRANSAKSI, TOTAL_TRANSAKSI, USERNAME_AKUN, KODE_METODE_PEMBAYARAN, ID_MEMBER) VALUES('{kode}','{waktu}', '{harga}', '{total}', '{username_akun}', '{kode_metode_pembayaran}', '{id_member}');\n"
+        sql += f"INSERT INTO TRANSAKSI (KODE_TRANSAKSI, WAKTU_TRANSAKSI, HARGA_TRANSAKSI, TOTAL_TRANSAKSI, USERNAME_AKUN, KODE_BARANG, KODE_METODE_PEMBAYARAN, ID_MEMBER) VALUES('{kode}','{waktu}', '{harga}', '{total}', '{username_akun}', '{kode_product}', '{kode_metode_pembayaran}', '{id_member}');\n"
     return sql
 
 def generateSQL(sql, filename):
-    with open(filename, "w") as f:
+    with open(filename, "w", encoding="utf-8") as f:
         f.write(sql) 
 
 def generateFile():
@@ -137,4 +136,3 @@ def generateFile():
 
     allSql = sqlCategory+sqlCustomers+sqlPaymentMethods+sqlAccount+sqlProduct+sqlSupplier+sqlPurchase+sqlTransaction
     generateSQL(allSql, "insert-data.sql")
-
