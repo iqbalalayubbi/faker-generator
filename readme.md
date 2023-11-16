@@ -8,6 +8,18 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Faker.
 pip install Faker
 ```
 
+Use the package manager [pip](https://pypi.org/project/pandas/) to install pandas.
+
+```bash
+pip install pandas
+```
+
+Use the package manager [pip](https://pypi.org/project/openpyxl/) to install openpyxl.
+
+```bash
+pip install openpyxl
+```
+
 ## Usage
 
 1. create database "swalayan"
