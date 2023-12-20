@@ -1,4 +1,5 @@
 __pycache__/
 !create-all-table.sql
-*.sql
+!swalayan.sql
+insert-data.sql
 .vscode/
